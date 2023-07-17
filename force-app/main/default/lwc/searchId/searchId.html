@@ -1,0 +1,64 @@
+<template>
+    <div class="slds-grid slds-wrap slds-grid_align-center">
+        <div class="slds-col slds-size_1-of-1">
+            <lightning-card>
+                <div class="slds-card__body slds-card__body_inner">This Page provide list of Calendar holidays in specific Year which is extracted from provided <strong>South African ID number</strong></div>
+                <div class="slds-grid slds-wrap slds-align_absolute-center">
+                    <div class="slds-medium-size_1-of-3">
+                        <lightning-input
+                            type="text"
+                            label=""
+                            placeholder="Enter ID number"
+                            value={idNumber}
+                            onchange={handleIdNumberChange}
+                            maxlength="13"
+                        ></lightning-input>
+                    </div>
+
+                    <div class="slds-col" style="margin-top: 18px;margin-left: 10px;">
+                        
+                        <lightning-button
+                            variant="brand"
+                            class="slds-m-right_small"
+                            label="Search"
+                            onclick={handleSearchClick}
+                            disabled={disableSearch}
+                        ></lightning-button>
+                    </div>
+                </div>
+
+                <template if:true={error}>
+                    <div class="slds-p-top_medium">
+                        <p class="slds-text-color_error">{error}</p>
+                    </div>
+                </template>
+
+                <template if:true={isLoading}>
+                    <div class="slds-spinner_container">
+                        <lightning-spinner size="medium"></lightning-spinner>
+                    </div>
+                </template>
+                <br>
+                <template if:true={showHolidays}>
+                    <div class="slds-p-top_medium slds-align_absolute-center">
+                        <h3>Here are the List of Calendar Holidays in <strong>{fYear}</strong> </h3>
+                    </div>
+                    <div class="slds-p-top_medium">
+                        <lightning-datatable
+                            key-field="date"
+                            data={holidays}
+                            columns={columns}
+                            hide-checkbox-column
+                        ></lightning-datatable>
+                    </div>
+                </template>
+
+                <template if:true={showNoResults}>
+                    <div class="slds-p-top_medium">
+                        <p>No holidays found.</p>
+                    </div>
+                </template>
+            </lightning-card>
+        </div>
+    </div>
+</template>
